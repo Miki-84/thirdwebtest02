@@ -9,11 +9,18 @@ import Land from './Land';
 const rectangle = [[50, 50], [108, 170]];
 const maxMapBounds = [[0, 0], [108, 192]];
 
-function Map() {
+function Map({onMapLandClick}) {
     const [loading, setLoading] = useState(false);
     const [lands, setLands] = useState([]);
     
     const localLands = [];
+
+    const colors = ['green', 'orange', 'red', 'darkgray']
+    
+
+    function handleMapLandClick(landIndex) {
+      onMapLandClick(landIndex);
+    }
 
     useEffect( () => {
         const loadLands = async () => {
@@ -37,7 +44,8 @@ function Map() {
           for (let j = 0; j < 192; j++) {
             if (items[i][j] === "1") {
               var rectBounds = [[1 * i, 1 * j], [1 * (i + 1), 1 * (j + 1)]]
-              localLands.push(<Land key={index} landIndex={index} landBounds={rectBounds} landColor='orange'  />)
+              var randomColor = colors[Math.floor(Math.random() * colors.length)];
+              localLands.push(<Land key={index} landIndex={index} landBounds={rectBounds} landColor={randomColor} onLandClick={handleMapLandClick}  />)
               index +=1;
             }
             else {
